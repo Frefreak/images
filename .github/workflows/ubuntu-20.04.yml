@@ -27,8 +27,10 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: build
+        env:
+          tag: "${{ secrets.DH_USERNAME }}/glibc-builder:ubuntu20.04"
         run: |
-          tag="{{ secrets.DH_USERNAME }}/glibc-builder:ubuntu20.04"
+          cd glibc-builder
           echo start building $tag
           docker build . -t $tag
           docker login --username {{ secrets.DH_USERNAME }} --password {{ secrests.DH_PASSWORD }}
