@@ -27,7 +27,7 @@ def main():
     elif minor >= 26:
         print("c4r50nz/glibc-builder:ubuntu18.04")
     elif minor >= 23:
-        print("c4r50nz/glibc-builder:ubuntu16.10")
+        print("c4r50nz/glibc-builder:ubuntu16.04")
     else:
         print(
             "\x1b[31;1mI'm not sure which image should I use, try setting with BUILD_IMAGE\x1b[31;0m",
