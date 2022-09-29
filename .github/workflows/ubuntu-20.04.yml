@@ -33,5 +33,5 @@ jobs:
           cd glibc-builder
           echo start building $tag
           docker build . -t $tag
-          docker login --username {{ secrets.DH_USERNAME }} --password {{ secrests.DH_PASSWORD }}
+          docker login --username ${{ secrets.DH_USERNAME }} --password ${{ secrests.DH_PASSWORD }}
           docker push $tag
