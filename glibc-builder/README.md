@@ -43,3 +43,4 @@ A script named `./download_and_build.sh` is provided to make this easier.
 1. `install.py` will `make` with `-j$(nproc)`, change if not desired (with `-j`).
 2. If you use the script, better read through what `install.py` does, its very simple and has some
 command line options to tweak how to build.
+3. I'm sure there are many bugs.

@@ -15,4 +15,4 @@ shift
 mkdir -p "$prefix"
 podman run -it -v "$glibc_src":/glibc -v "$prefix":/prefix  -v ./install.py:/install.py \
     c4r50nz/glibc-builder:ubuntu20.04 \
-    /install.py -i "$version" -s /glibc -p /prefix -nc $@
+    /install.py -i "$version" -s /glibc -p /prefix $@
