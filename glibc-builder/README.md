@@ -38,9 +38,62 @@ podman run -v <glibc_src>:/glibc <prefix>:/prefix \
 
 A script named `./download_and_build.sh` is provided to make this easier.
 
-### misc
+### notes
 
 1. `install.py` will `make` with `-j$(nproc)`, change if not desired (with `-j`).
-2. If you use the script, better read through what `install.py` does, its very simple and has some
+2. If you use the script, you'd better read through what `install.py` does, its very simple and has some
 command line options to tweak how to build.
-3. I'm sure there are many bugs.
+3. `image_selector.py` might not be correct, I only tested a few versions.
+4. a `compile_commands.json` will be left in the build folder, you can symlink
+it to navigate the code easier.
+5. I'm sure there are many bugs.
+
+## change existing binary's glibc version
+
+Say I have a binary: **babyheap**
+
+```sh
+❯ ldd babyheap
+        linux-vdso.so.1 (0x00007ffebc1c6000)
+        libc.so.6 => /usr/lib/libc.so.6 (0x00007f725da19000)
+        /lib64/ld-linux-x86-64.so.2 => /usr/lib64/ld-linux-x86-64.so.2 (0x00007f725df14000)
+```
+
+So it is using system glibc. I now want to change it to use glibc-2.23 (assuming
+you know the target's glibc version) to make debugging locally easier. One way
+is to use `LD_PRELOAD` but I find it doesn't work for some binaries. What seems
+to work better is to directly modify the binary. This can be summarized in
+`use_glibc.py`.
+
+```sh
+❯ ./use_glibc.py babyheap ~/prefix/glibc_2.23/lib babyheap-2.23
+Current ld.so:
+Path: /lib64/ld-linux-x86-64.so.2
+
+New ld.so:
+Path: /home/.../prefix/glibc_2.23/lib/ld-2.23.so
+
+Adding RUNPATH:
+Path: /home/.../prefix/glibc_2.23/lib
+
+Writing new binary babyheap-2.23
+
+❯ chmod a+x babyheap-2.23
+
+❯ ldd babyheap-2.23
+        linux-vdso.so.1 (0x00007ffdf069b000)
+        libc.so.6 => /home/.../prefix/glibc_2.23/lib/libc.so.6 (0x00007fba05a00000)
+        /home/.../prefix/glibc_2.23/lib/ld-2.23.so => /usr/lib64/ld-linux-x86-64.so.2 (0x00007fba06386000)
+```
+
+and it runs ok:
+
+```sh
+❯ ./babyheap-2.23
+1. add
+2. edit
+3. delete
+4. show
+5. exit
+Choice:
+```
