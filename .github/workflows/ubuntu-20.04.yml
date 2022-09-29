@@ -31,7 +31,7 @@ jobs:
           tag: "${{ secrets.DH_USERNAME }}/glibc-builder:ubuntu20.04"
         run: |
           cd glibc-builder
-          echo start building $tag
-          docker build . -t $tag
+          echo start building
+          docker build . -t $tag -f ubuntu20.Dockerfile
           docker login --username '${{ secrets.DH_USERNAME }}' --password '${{ secrets.DH_PASSWORD }}'
           docker push $tag
