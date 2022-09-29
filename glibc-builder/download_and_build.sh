@@ -12,7 +12,14 @@ shift
 prefix="$1"
 shift
 
+IMAGE=$(python3 image_selector.py $version)
+if [ -z $IMAGE ]; then
+	echo image selection failed, see message?
+	exit 1
+fi
+
+echo using image ${IMAGE}
 mkdir -p "$prefix"
 podman run -it -v "$glibc_src":/glibc -v "$prefix":/prefix  -v ./install.py:/install.py \
-    c4r50nz/glibc-builder:ubuntu20.04 \
+    -e CFLAGS="$CFLAGS" ${IMAGE} \
     /install.py -i "$version" -s /glibc -p /prefix $@

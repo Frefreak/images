@@ -19,7 +19,6 @@ parser.add_argument("-j", "--job", help="make -j", default=None)
 parser.add_argument(
     "-c", "--cc", help="compile with customed gcc command", default="gcc"
 )
-parser.add_argument("-cf", "--cflags", help="pass CFLAGS when configure")
 parser.add_argument(
     "-s", "--src", help="src directory to store source code", default="./"
 )
@@ -57,7 +56,8 @@ def get_available_versions():
     html = BeautifulSoup(r.text, "lxml")
     versions = []
     for l in html.select("table > tr > td:nth-of-type(2)"):
-        if m := re.match(r"^glibc-(2.+)\.tar\.gz$", l.text):
+        m = re.match(r"^glibc-(2.+)\.tar\.gz$", l.text)
+        if m:
             v = m.group(1)
             try:
                 if tuple(map(int, v.split("."))) >= MIN_VER:
@@ -89,7 +89,7 @@ def install(args, version):
 
         if args.check:
             os.system(f"gpg --verify {targz_sig} {targz}")
-        input("press any to continue ")
+        input("press enter to continue ")
 
         print("\x1b[31;1mextracting...\x1b[0m")
         time.sleep(1)
@@ -112,10 +112,9 @@ def install(args, version):
     except FileNotFoundError:
         os.mkdir(build_dir)
     os.chdir(build_dir)
-    if args.cflags:
+    cflags = os.getenv("CFLAGS", "")
+    if cflags:
         cflags = f'CFLAGS={quote(args.cflags)}'
-    else:
-        cflags = ''
     if args.tcache:
         print("\x1b[31;1mTCACHE enabled (if supported)\x1b[0m")
         time.sleep(1)
