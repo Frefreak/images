@@ -15,26 +15,26 @@ Currently the builder is from ubuntu-20.04 and can compile glibc around 2.30.
 
 1. clone glibc src and checkout to target tag
 2. build glibc with this builder image and install.py script:
-```
+```sh
 podman run -v <glibc_src>:/glibc <prefix>:/prefix \
     c4r50nz/glibc-builder:ubuntu20.04 -- \
     ./install.py -i <version> -s /glibc -p /prefix -nc -nd
 ```
-    - **glibc\_src**: root path of glibc source
-    - **prefix**: where to install the built glibc
+- **glibc\_src**: root path of glibc source
+- **prefix**: where to install the built glibc
 
 A script named `./build_with_existing_src.sh` is provided to make this easier.
 
 ### let it download the source to build
 
 1. build glibc with this builder image and install.py script (do not pass `-nd`):
-```
+```sh
 podman run -v <glibc_src>:/glibc <prefix>:/prefix \
     c4r50nz/glibc-builder:ubuntu20.04 -- \
     ./install.py -i <version> -s /glibc -p /prefix -nc
 ```
-    - **glibc\_src**: root path of glibc source
-    - **prefix**: where to install the built glibc
+**glibc\_src**: root path of glibc source
+**prefix**: where to install the built glibc
 
 A script named `./download_and_build.sh` is provided to make this easier.
 
