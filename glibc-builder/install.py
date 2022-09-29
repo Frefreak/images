@@ -89,7 +89,7 @@ def install(args, version):
 
         if args.check:
             os.system(f"gpg --verify {targz_sig} {targz}")
-        input("press enter to continue ")
+            input("press enter to continue ")
 
         print("\x1b[31;1mextracting...\x1b[0m")
         time.sleep(1)
@@ -114,7 +114,7 @@ def install(args, version):
     os.chdir(build_dir)
     cflags = os.getenv("CFLAGS", "")
     if cflags:
-        cflags = f'CFLAGS={quote(args.cflags)}'
+        cflags = f'CFLAGS={quote(cflags)}'
     if args.tcache:
         print("\x1b[31;1mTCACHE enabled (if supported)\x1b[0m")
         time.sleep(1)
