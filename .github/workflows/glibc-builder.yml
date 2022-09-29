@@ -20,18 +20,20 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        version: ["ubuntu20.04", "ubuntu18.04", "ubuntu16.04"]
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      # Runs a single command using the runners shell
       - name: build
         env:
-          tag: "${{ secrets.DH_USERNAME }}/glibc-builder:ubuntu20.04"
+          tag: "${{ secrets.DH_USERNAME }}/glibc-builder:${{ matrix.version }}"
         run: |
           cd glibc-builder
           echo start building
-          docker build . -t $tag -f ubuntu20.04.Dockerfile
+          docker build . -t $tag -f ${{ matrix.version }}.Dockerfile
           docker login --username '${{ secrets.DH_USERNAME }}' --password '${{ secrets.DH_PASSWORD }}'
           docker push $tag
