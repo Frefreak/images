@@ -44,9 +44,13 @@ A script named `./download_and_build.sh` is provided to make this easier.
 2. If you use the script, you'd better read through what `install.py` does, its very simple and has some
 command line options to tweak how to build.
 3. `image_selector.py` might not be correct, I only tested a few versions.
-4. a `compile_commands.json` will be left in the build folder, you can symlink
+4. A `compile_commands.json` will be left in the build folder, you can symlink
 it to navigate the code easier.
-5. I'm sure there are many bugs.
+5. The helper scripts will map `glibc_src` and `prefix` to the same path as host
+to make the generated `compile_commands.json` works better. This should be OK
+most of the time as long as you do not provide some path already existed in
+the container.
+6. I'm sure there are many bugs.
 
 ## change existing binary's glibc version
 

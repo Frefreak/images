@@ -20,6 +20,7 @@ fi
 
 echo using image ${IMAGE}
 mkdir -p "$prefix"
-podman run -it -v "$glibc_src":/glibc -v "$prefix":/prefix  -v ./install.py:/install.py \
+# map glibc_src, prefix to the same path to make `compile_commands.json` as correct as possible
+podman run -it -v "$glibc_src":"$glibc_src" -v "$prefix":"$prefix"  -v ./install.py:/install.py \
     -e CFLAGS="$CFLAGS" ${IMAGE} \
-    /install.py -i "$version" -s /glibc -p /prefix -nc -nd $@
+    /install.py -i "$version" -s "$glibc_src" -p "$prefix" -nc -nd $@

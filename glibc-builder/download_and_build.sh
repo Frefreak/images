@@ -20,6 +20,6 @@ fi
 
 echo using image ${IMAGE}
 mkdir -p "$prefix"
-podman run -it -v "$glibc_src":/glibc -v "$prefix":/prefix  -v ./install.py:/install.py \
+podman run -it -v "$glibc_src":"$glibc_src" -v "$prefix":"$prefix"  -v ./install.py:/install.py \
     -e CFLAGS="$CFLAGS" ${IMAGE} \
-    /install.py -i "$version" -s /glibc -p /prefix $@
+    /install.py -i "$version" -s "$glibc_src" -p "$prefix" $@
