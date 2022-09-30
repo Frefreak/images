@@ -113,14 +113,23 @@ def install(args, version):
         os.mkdir(build_dir)
     os.chdir(build_dir)
     cflags = os.getenv("CFLAGS", "")
+    # remove CFLAGS from env so it won't be used by make/gcc automatically?
+    try:
+        os.environ.pop('CFLAGS')
+    except KeyError:
+        pass
     if cflags:
         cflags = f'CFLAGS={quote(cflags)}'
     if args.tcache:
         print("\x1b[31;1mTCACHE enabled (if supported)\x1b[0m")
+        print("full commandline:")
+        print(f"CC={args.cc} {cflags} ../configure --prefix={prefix}")
         time.sleep(1)
         os.system(f"CC={args.cc} {cflags} ../configure --prefix={prefix}")
     else:
         print("\x1b[31;1mTCACHE disabled\x1b[0m")
+        print("full commandline:")
+        print(f"CC={args.cc} {cflags} ../configure --prefix={prefix}")
         time.sleep(1)
         os.system(f"CC={args.cc} {cflags} ../configure --prefix={prefix} --disable-experimental-malloc")
 
