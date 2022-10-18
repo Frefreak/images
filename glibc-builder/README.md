@@ -3,7 +3,9 @@ This image contains the tools to build & use glibc.
 It is useful when you are on a distro with bleeding edge system toolchains,
 which might have some troubles compiling old-ish glibc versions.
 
-Currently the builder is from ubuntu-20.04 and can compile glibc around 2.30.
+Currently this tool should be able to build glibc around version 2.23 - 2.31
+(some of the versions in this range is tested, version outside of this range
+is untested).
 
 # how to use
 
