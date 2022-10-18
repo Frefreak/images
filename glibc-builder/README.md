@@ -4,8 +4,8 @@ It is useful when you are on a distro with bleeding edge system toolchains,
 which might have some troubles compiling old-ish glibc versions.
 
 Currently this tool should be able to build glibc around version 2.23 - 2.31
-(some of the versions in this range is tested, version outside of this range
-is untested).
+(some of the versions in this range are tested, version outside of this range
+are untested).
 
 # how to use
 
